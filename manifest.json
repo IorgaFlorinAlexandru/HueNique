@@ -1,0 +1,28 @@
+{ 
+  "manifest_version": 2,
+  "name": "HueNique",
+  "version": "0.0.1",
+
+  "description": "Color picker extension to save and pick your favorite and unique colors",
+
+  "icons": {
+    "16": "src/assets/icons/palette-16.png",
+    "48": "src/assets/icons/palette-48.png",
+    "96": "src/assets/icons/palette-96.png"
+  },
+
+  "permisions": [
+    "activeTab",
+    "menus"
+  ],
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": [
+        "src/content/color-picker.js"
+      ]
+    }
+  ]
+
+}

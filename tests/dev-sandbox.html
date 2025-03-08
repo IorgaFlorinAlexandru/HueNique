@@ -1,0 +1,102 @@
+<!doctype html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>HueNique Dev Playground</title>
+  <style>
+    body {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    .sandbox {
+      height: 100vh;
+      padding: 1rem;
+      background-color: #121212;
+    }
+
+    #colors {
+      display: flex;
+    }
+
+    #colors .color-square {
+      width: 3rem;
+      height: 3rem;
+    }
+
+    #smallColors {
+      display: flex;
+      margin-bottom: 1rem;
+    }
+
+    #smallColors .color-square {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+    #lines {
+      display: flex;
+      margin-top: 1rem;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    #lines .color-square {
+      width: 10rem;
+      height: 1.5rem;
+    }
+
+    .icons {
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sandbox">
+    <section id="smallColors"></section>
+    <section id="colors"></section>
+    <section id="lines"></section>
+    <section class="icons">
+      <img src="../src/assets/icons/palette-96.png" />
+      <img src="../src/assets/icons/palette-48.png" />
+      <img src="../src/assets/icons/palette-16.png" />
+    </section>
+  </div>
+
+  <script>
+    const colors = [
+      "#0072bb",
+      "#8FC93A",
+      "#E4CC37",
+      "#E18335",
+      "#E71D36",
+      "#CDDFA0",
+      "#6FD08C",
+      "#96C9DC",
+      "#F5D491",
+      "#B7245C",
+      "#002500",
+      "#320D6D",
+      "#FFD447",
+      "#EEC643",
+      "#141414",
+      "#EEF0F2",
+      "#0D21A1",
+      "#011638",
+    ];
+    const c1 = document.getElementById("smallColors");
+    const c2 = document.getElementById("colors");
+    const c3 = document.getElementById("lines");
+
+    colors.forEach((c) => {
+      var div = document.createElement("div");
+      div.classList.add("color-square");
+      div.style.backgroundColor = c;
+      c1.append(div.cloneNode(true));
+      c2.append(div.cloneNode(true));
+      c3.append(div.cloneNode(true));
+    });
+  </script>
+</body>
