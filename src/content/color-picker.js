@@ -1,19 +1,38 @@
-function colorPicker() {
-  const div = document.createElement("div");
-  styleElement(div);
-  // handleMouseMoveEvent(div);
+const debug = true;
+let div = null;
 
-  document.body.append(div);
+function colorPicker() {
+  if (div === null) {
+    div = createDivElement();
+  }
+  document.body.appendChild(div);
+
+  document.body.addEventListener("mousedown", handleMouseClick, { once: true });
+
+  if (debug) {
+    document.body.addEventListener("mousemove", handleMouseMove, true);
+  }
 }
 
-function handleMouseMoveEvent(element) {
-  document.body.addEventListener(
-    "mousemove",
-    (event) => {
-      moveElement(element, event.pageX, event.pageY);
-    },
-    false,
-  );
+function handleMouseClick() {
+  document.body.removeEventListener("mousemove", handleMouseMove, true);
+  document.body.removeChild(div);
+}
+
+function handleMouseMove(event) {
+  console.log(event);
+  const posX = event.pageX + 10;
+  const posY = event.pageY - div.clientWidth - 10;
+
+  div.style.left = posX + "px";
+  div.style.top = posY + "px";
+}
+
+function createDivElement() {
+  const element = document.createElement("div");
+  styleElement(element)
+
+  return element;
 }
 
 function styleElement(element) {
@@ -26,9 +45,4 @@ function styleElement(element) {
 
   element.style.top = "20px";
   element.style.right = "20px";
-}
-
-function moveElement(element, mouseX, mouseY) {
-  element.style.top = mouseY - element.clientWidth - 10 + "px";
-  element.style.left = mouseX + 10 + "px";
 }
