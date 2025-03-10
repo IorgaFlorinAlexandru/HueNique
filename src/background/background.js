@@ -18,10 +18,21 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
         tabId: tab.id,
       },
       func: () => {
-        colorPicker();
+        huenique();
       },
     });
   } catch (error) {
     console.error("failed to execute script:", error);
   }
+});
+
+browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  return browser.tabs.captureVisibleTab().then(
+    (imageUri) => {
+      return imageUri;
+    },
+    (error) => {
+      console.error("Error while trying to capture visible tab:", error);
+    },
+  );
 });
