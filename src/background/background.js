@@ -27,6 +27,8 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
 });
 
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  console.log(request);
+
   return browser.tabs.captureVisibleTab().then(
     (imageUri) => {
       return imageUri;

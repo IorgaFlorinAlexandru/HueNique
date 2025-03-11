@@ -8,90 +8,108 @@ const styles = {
 };
 
 class HueniqueEyeDropper {
-  magnifier = null;
-  debug = true;
-
   constructor() {
-    this.#createMagnifier();
+    this.createMagnifier();
   }
 
   open() {
-    const imgMessage = browser.runtime.sendMessage({});
+    const canvasPromise = this.loadCanvasImage();
+    return canvasPromise.then((canvas) => {
+      const magnifier = this.createMagnifier();
 
-    imgMessage.then(
-      (imageUri) => {
-        document.body.appendChild(this.magnifier);
+      document.body.appendChild(magnifier);
+      const handler = function(event) {
+        console.log(event);
+        const posX = event.pageX + 10;
+        const posY = event.pageY - magnifier.clientWidth - 10;
 
-        const htmlElement = this.magnifier;
+        magnifier.style.top = `${posY}px`;
+        magnifier.style.left = `${posX}px`;
+      };
 
-        const handler = function(event) {
-          console.log(event);
-          const posX = event.pageX + 10;
-          const posY = event.pageY - htmlElement.clientWidth - 10;
+      //document.body.addEventListener("mousemove", handler, true);
 
-          htmlElement.style.top = `${posY}px`;
-          htmlElement.style.left = `${posX}px`;
-        };
-
-        //document.body.addEventListener("mousemove", handler, true);
-
+      return new Promise(function(resolve) {
         document.body.addEventListener(
           "mousedown",
-          (event) => {
-            console.log(event);
-            // TODO: Do this when receiving imageUri, including the uri to blob part
-            const canvas = document.createElement("canvas");
-            canvas.height = window.innerHeight;
-            canvas.width = window.innerWidth;
-            const ctx = canvas.getContext("2d");
-            const blob = imageUriToBlob(imageUri);
-
-            createImageBitmap(blob).then((imageBitmap) => {
-              ctx.drawImage(imageBitmap, 0, 0);
-
-              // Pixel data
-              const pixel = ctx.getImageData(
-                event.clientX,
-                event.clientY,
-                1,
-                1,
-              );
-              const data = pixel.data;
-
-              const rgbColor = `rgb(${data[0]}, ${data[1]}, ${data[2]})`;
-              console.log(rgbColor);
-              const square = document.createElement("div");
-              square.style.width = "100px";
-              square.style.height = "100px";
-              square.style.margin = "20px";
-              square.style.background = rgbColor;
-
-              document.body.appendChild(square);
-            });
+          (e) => {
+            const color = HueniqueEyeDropper.extractPixelColor(
+              canvas,
+              e.clientX,
+              e.clientY,
+            );
 
             document.body.removeEventListener("mousemove", handler, true);
-            document.body.removeChild(this.magnifier);
+            document.body.removeChild(magnifier);
+
+            resolve(color);
           },
           {
             once: true,
+            capture: false
           },
         );
-      },
-      (error) => {
-        console.log("Error:", error);
-      },
-    );
+      });
+    });
   }
 
-  #createMagnifier() {
-    this.magnifier = document.createElement("div");
-    Object.assign(this.magnifier.style, styles.eyeDropper);
+  createMagnifier() {
+    const magnifier = document.createElement("div");
+    Object.assign(magnifier.style, styles.eyeDropper);
 
     const defaultYPos = 25;
     const defaultXPos = document.body.clientWidth - 150;
 
-    this.magnifier.style.top = defaultYPos + "px";
-    this.magnifier.style.left = defaultXPos + "px";
+    magnifier.style.top = defaultYPos + "px";
+    magnifier.style.left = defaultXPos + "px";
+
+    return magnifier;
+  }
+
+  loadCanvasImage() {
+    const capture = browser.runtime.sendMessage({
+      hueniqueMessage: "HueNique Message To Capture Visible Tab",
+    });
+
+    return capture.then(
+      (imageUri) => {
+        const blob = imageUriToBlob(imageUri);
+        return createImageBitmap(blob).then(
+          (imageBitmap) => {
+            const canvas = document.createElement("canvas");
+            canvas.height = window.innerHeight;
+            canvas.width = window.innerWidth;
+
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(imageBitmap, 0, 0);
+
+            return canvas;
+          },
+          (error) => {
+            console.log("Error while creating bitmap image:", error);
+          },
+        );
+      },
+      (error) => {
+        console.log("Error while capturing visible tab:", error);
+      },
+    );
+  }
+
+  static extractPixelColor(canvas, x, y) {
+    const ctx = canvas.getContext("2d");
+    const pixel = ctx.getImageData(x, y, 1, 1);
+    const data = pixel.data;
+
+    const rgbColor = `rgb(${data[0]}, ${data[1]}, ${data[2]})`;
+    const square = document.createElement("div");
+    square.style.width = "100px";
+    square.style.height = "100px";
+    square.style.margin = "20px";
+    square.style.background = rgbColor;
+    document.body.appendChild(square);
+
+    return rgbColor;
   }
 }
 
