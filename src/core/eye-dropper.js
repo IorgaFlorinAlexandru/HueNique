@@ -1,8 +1,8 @@
 const styles = {
   eyeDropper: {
-    width: "120px",
-    height: "120px",
-    position: "absolute",
+    width: "110px",
+    height: "110px",
+    position: "fixed",
     border: "1px solid gray",
     cursor: "none",
     zIndex: "99999",
@@ -11,12 +11,13 @@ const styles = {
 
 class HueniqueEyeDropper {
   eventHandlers = new Map();
-  constructor() {}
+  magnifier = null;
 
   open() {
     const loadingCapture = this.loadCanvasImage();
     return loadingCapture.then((canvas) => {
-      const magnifier = this.createMagnifier();
+      this.createMagnifier();
+      this.addMouseMoveEvent(canvas);
       this.disableScroll();
 
       const eyeDropper = this;
@@ -24,11 +25,10 @@ class HueniqueEyeDropper {
         document.body.addEventListener(
           "mousedown",
           (e) => {
-            document.body.removeChild(magnifier);
             eyeDropper.onDestroy();
 
             const color = Colors.extractPixelColor(
-              canvas,
+              canvas.getContext("2d"),
               e.clientX,
               e.clientY,
             );
@@ -41,21 +41,6 @@ class HueniqueEyeDropper {
         );
       });
     });
-  }
-
-  createMagnifier() {
-    const magnifier = document.createElement("div");
-    Object.assign(magnifier.style, styles.eyeDropper);
-
-    const defaultYPos = 25;
-    const defaultXPos = document.body.clientWidth - 150;
-
-    magnifier.style.top = defaultYPos + "px";
-    magnifier.style.left = defaultXPos + "px";
-
-    document.body.appendChild(magnifier);
-
-    return magnifier;
   }
 
   loadCanvasImage() {
@@ -88,6 +73,44 @@ class HueniqueEyeDropper {
     );
   }
 
+  addMouseMoveEvent(imageCanvas) {
+    const iCtx = imageCanvas.getContext("2d");
+    const imageData = iCtx.getImageData(
+      0,
+      0,
+      imageCanvas.width,
+      imageCanvas.height,
+    );
+
+    const canvas = document.createElement("canvas");
+    canvas.width = this.magnifier.clientWidth;
+    canvas.height = this.magnifier.clientHeight;
+    const ctx = canvas.getContext("2d");
+
+    const buffer8 = new Uint8Array(imageData.data.buffer); // what is endian, big or little
+    const width = window.innerWidth;
+    const size = 10;
+    const handler = (e) => {
+      const px = (e.clientY * width + e.clientX) * 4;
+      const rgbColor = `rgb(${buffer8[px]}, ${buffer8[px + 1]}, ${buffer8[px + 2]})`;
+      ctx.fillStyle = rgbColor;
+      for(let i = 0; i < 11; i++) 
+        for(let j = 0; j < 11; j++) {
+          ctx.fillRect(j*size,i*size,size,size);
+      }
+    };
+
+    this.eventHandlers.set("mousemove", handler);
+
+    document.body.addEventListener("mousemove", handler, false);
+    this.magnifier.appendChild(canvas);
+  }
+
+  removeMouseMoveEvent() {
+    const handler = this.eventHandlers.get("mousemove");
+    document.body.removeEventListener("mousemove", handler, false);
+  }
+
   disableScroll() {
     const scrollHandler = (e) => {
       e.preventDefault();
@@ -105,7 +128,27 @@ class HueniqueEyeDropper {
     window.removeEventListener("wheel", handler, false);
   }
 
+  createMagnifier() {
+    this.magnifier = document.createElement("div");
+    Object.assign(this.magnifier.style, styles.eyeDropper);
+
+    const defaultYPos = 25;
+    const defaultXPos = document.body.clientWidth - 150;
+
+    this.magnifier.style.top = defaultYPos + "px";
+    this.magnifier.style.left = defaultXPos + "px";
+
+    document.body.appendChild(this.magnifier);
+  }
+
+  removeMagnifier() {
+    document.body.removeChild(this.magnifier);
+    this.magnifier = null;
+  }
+
   onDestroy() {
+    this.removeMagnifier();
+    this.removeMouseMoveEvent();
     this.enableScroll();
     this.eventHandlers.clear();
   }
