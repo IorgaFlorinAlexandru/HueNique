@@ -4,49 +4,39 @@ const styles = {
     height: "120px",
     position: "absolute",
     border: "1px solid gray",
+    cursor: "none",
+    zIndex: "99999",
   },
 };
 
 class HueniqueEyeDropper {
-  constructor() {
-    this.createMagnifier();
-  }
+  eventHandlers = new Map();
+  constructor() {}
 
   open() {
-    const canvasPromise = this.loadCanvasImage();
-    return canvasPromise.then((canvas) => {
+    const loadingCapture = this.loadCanvasImage();
+    return loadingCapture.then((canvas) => {
       const magnifier = this.createMagnifier();
+      this.disableScroll();
 
-      document.body.appendChild(magnifier);
-      const handler = function(event) {
-        console.log(event);
-        const posX = event.pageX + 10;
-        const posY = event.pageY - magnifier.clientWidth - 10;
-
-        magnifier.style.top = `${posY}px`;
-        magnifier.style.left = `${posX}px`;
-      };
-
-      //document.body.addEventListener("mousemove", handler, true);
-
-      return new Promise(function(resolve) {
+      const eyeDropper = this;
+      return new Promise(function (resolve) {
         document.body.addEventListener(
           "mousedown",
           (e) => {
-            const color = HueniqueEyeDropper.extractPixelColor(
+            document.body.removeChild(magnifier);
+            eyeDropper.onDestroy();
+
+            const color = Colors.extractPixelColor(
               canvas,
               e.clientX,
               e.clientY,
             );
 
-            document.body.removeEventListener("mousemove", handler, true);
-            document.body.removeChild(magnifier);
-
             resolve(color);
           },
           {
             once: true,
-            capture: false
           },
         );
       });
@@ -62,6 +52,8 @@ class HueniqueEyeDropper {
 
     magnifier.style.top = defaultYPos + "px";
     magnifier.style.left = defaultXPos + "px";
+
+    document.body.appendChild(magnifier);
 
     return magnifier;
   }
@@ -96,20 +88,26 @@ class HueniqueEyeDropper {
     );
   }
 
-  static extractPixelColor(canvas, x, y) {
-    const ctx = canvas.getContext("2d");
-    const pixel = ctx.getImageData(x, y, 1, 1);
-    const data = pixel.data;
+  disableScroll() {
+    const scrollHandler = (e) => {
+      e.preventDefault();
+    };
 
-    const rgbColor = `rgb(${data[0]}, ${data[1]}, ${data[2]})`;
-    const square = document.createElement("div");
-    square.style.width = "100px";
-    square.style.height = "100px";
-    square.style.margin = "20px";
-    square.style.background = rgbColor;
-    document.body.appendChild(square);
+    this.eventHandlers.set("scroll", scrollHandler);
 
-    return rgbColor;
+    window.addEventListener("wheel", scrollHandler, {
+      passive: false,
+    });
+  }
+
+  enableScroll() {
+    const handler = this.eventHandlers.get("scroll");
+    window.removeEventListener("wheel", handler, false);
+  }
+
+  onDestroy() {
+    this.enableScroll();
+    this.eventHandlers.clear();
   }
 }
 
