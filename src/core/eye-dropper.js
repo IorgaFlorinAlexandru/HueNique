@@ -3,7 +3,7 @@ const styles = {
     width: "110px",
     height: "110px",
     position: "fixed",
-    border: "1px solid gray",
+    border: "2px solid white",
     cursor: "none",
     zIndex: "99999",
   },
@@ -21,7 +21,7 @@ class HueniqueEyeDropper {
       this.disableScroll();
 
       const eyeDropper = this;
-      return new Promise(function (resolve) {
+      return new Promise(function(resolve) {
         document.body.addEventListener(
           "mousedown",
           (e) => {
@@ -86,18 +86,13 @@ class HueniqueEyeDropper {
     canvas.width = this.magnifier.clientWidth;
     canvas.height = this.magnifier.clientHeight;
     const ctx = canvas.getContext("2d");
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 1;
 
     const buffer8 = new Uint8Array(imageData.data.buffer); // what is endian, big or little
-    const width = window.innerWidth;
     const size = 10;
     const handler = (e) => {
-      const px = (e.clientY * width + e.clientX) * 4;
-      const rgbColor = `rgb(${buffer8[px]}, ${buffer8[px + 1]}, ${buffer8[px + 2]})`;
-      ctx.fillStyle = rgbColor;
-      for(let i = 0; i < 11; i++) 
-        for(let j = 0; j < 11; j++) {
-          ctx.fillRect(j*size,i*size,size,size);
-      }
+      this.drawMagnifierCanvas(ctx, e.clientX, e.clientY, buffer8, size);
     };
 
     this.eventHandlers.set("mousemove", handler);
@@ -116,16 +111,27 @@ class HueniqueEyeDropper {
       e.preventDefault();
     };
 
+    const keyScrollHandler = (e) => {
+      console.log(e);
+      e.preventDefault();
+    };
+
     this.eventHandlers.set("scroll", scrollHandler);
+    this.eventHandlers.set("scrollKey", keyScrollHandler);
 
     window.addEventListener("wheel", scrollHandler, {
+      passive: false,
+    });
+    window.addEventListener("keydown", keyScrollHandler, {
       passive: false,
     });
   }
 
   enableScroll() {
-    const handler = this.eventHandlers.get("scroll");
-    window.removeEventListener("wheel", handler, false);
+    const scrollHandler = this.eventHandlers.get("scroll");
+    const keyScrollHandler = this.eventHandlers.get("scrollKey");
+    window.removeEventListener("wheel", scrollHandler, false);
+    window.removeEventListener("keydown", keyScrollHandler, false);
   }
 
   createMagnifier() {
@@ -151,6 +157,49 @@ class HueniqueEyeDropper {
     this.removeMouseMoveEvent();
     this.enableScroll();
     this.eventHandlers.clear();
+  }
+
+  drawMagnifierCanvas(ctx, x, y, bffr, size) {
+    const imageWidth = window.innerWidth;
+    let px = y * imageWidth + x;
+    this.drawPixelRow(ctx, px, size, 50, 50, bffr);
+
+    for (let i = 1; i < 6; i++) {
+      const tPx = (y - i) * imageWidth + x;
+      this.drawPixelRow(ctx, tPx, size, 50, 50 - i * size, bffr);
+
+      const bPx = (y + i) * imageWidth + x;
+      this.drawPixelRow(ctx, bPx, size, 50, 50 + i * size, bffr);
+    }
+  }
+
+  drawPixelRow(ctx, px, size, rowX, rowY, bffr) {
+    this.drawPixelColor(ctx, size, rowX, rowY, bffr.slice(px * 4, px * 4 + 3));
+    for (let i = 1; i < 6; i++) {
+      const lPx = px - i;
+      this.drawPixelColor(
+        ctx,
+        size,
+        rowX - i * size,
+        rowY,
+        bffr.slice(lPx * 4, lPx * 4 + 3),
+      );
+
+      const rPx = px + i;
+      this.drawPixelColor(
+        ctx,
+        size,
+        rowX + i * size,
+        rowY,
+        bffr.slice(rPx * 4, rPx * 4 + 3),
+      );
+    }
+  }
+
+  drawPixelColor(ctx, size, rowX, rowY, data) {
+    ctx.fillStyle = `rgb(${data[0]}, ${data[1]}, ${data[2]})`;
+    ctx.fillRect(rowX, rowY, size, size);
+    ctx.strokeRect(rowX, rowY, size, size);
   }
 }
 
