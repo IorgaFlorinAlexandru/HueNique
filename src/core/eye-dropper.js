@@ -21,7 +21,7 @@ class HueniqueEyeDropper {
       this.disableScroll();
 
       const eyeDropper = this;
-      return new Promise(function(resolve) {
+      return new Promise(function (resolve) {
         document.body.addEventListener(
           "mousedown",
           (e) => {
@@ -86,8 +86,6 @@ class HueniqueEyeDropper {
     canvas.width = this.magnifier.clientWidth;
     canvas.height = this.magnifier.clientHeight;
     const ctx = canvas.getContext("2d");
-    ctx.strokeStyle = "black";
-    ctx.lineWidth = 1;
 
     const buffer8 = new Uint8Array(imageData.data.buffer); // what is endian, big or little
     const size = 10;
@@ -161,7 +159,9 @@ class HueniqueEyeDropper {
 
   drawMagnifierCanvas(ctx, x, y, bffr, size) {
     const imageWidth = window.innerWidth;
-    let px = y * imageWidth + x;
+    ctx.strokeStyle = "#363636";
+    ctx.lineWidth = 0.2;
+    const px = y * imageWidth + x;
     this.drawPixelRow(ctx, px, size, 50, 50, bffr);
 
     for (let i = 1; i < 6; i++) {
@@ -171,35 +171,35 @@ class HueniqueEyeDropper {
       const bPx = (y + i) * imageWidth + x;
       this.drawPixelRow(ctx, bPx, size, 50, 50 + i * size, bffr);
     }
+
+    this.highlightMousePixel(ctx, size);
   }
 
-  drawPixelRow(ctx, px, size, rowX, rowY, bffr) {
-    this.drawPixelColor(ctx, size, rowX, rowY, bffr.slice(px * 4, px * 4 + 3));
+  drawPixelRow(ctx, px, size, x, y, bffr) {
+    this.drawPixelColor(ctx, size, x, y, bffr.slice(px * 4, px * 4 + 3));
     for (let i = 1; i < 6; i++) {
-      const lPx = px - i;
-      this.drawPixelColor(
-        ctx,
-        size,
-        rowX - i * size,
-        rowY,
-        bffr.slice(lPx * 4, lPx * 4 + 3),
-      );
+      const lPx = (px - i) * 4;
+      this.drawPixelColor(ctx, size, x - i * size, y, bffr.slice(lPx, lPx + 3));
 
-      const rPx = px + i;
-      this.drawPixelColor(
-        ctx,
-        size,
-        rowX + i * size,
-        rowY,
-        bffr.slice(rPx * 4, rPx * 4 + 3),
-      );
+      const rPx = (px + i) * 4;
+      this.drawPixelColor(ctx, size, x + i * size, y, bffr.slice(rPx, rPx + 3));
     }
   }
 
-  drawPixelColor(ctx, size, rowX, rowY, data) {
+  drawPixelColor(ctx, size, x, y, data) {
     ctx.fillStyle = `rgb(${data[0]}, ${data[1]}, ${data[2]})`;
-    ctx.fillRect(rowX, rowY, size, size);
-    ctx.strokeRect(rowX, rowY, size, size);
+    ctx.fillRect(x, y, size, size);
+    ctx.strokeStyle = `rgb(${255-data[0]}, ${255-data[1]}, ${255-data[2]})`;
+    ctx.strokeRect(x, y, size, size);
+  }
+
+  highlightMousePixel(ctx, size) {
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "black";
+    ctx.strokeRect(50, 50, size, size);
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "white";
+    ctx.strokeRect(51, 51, size - 2, size - 2);
   }
 }
 

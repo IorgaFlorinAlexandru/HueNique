@@ -25,6 +25,16 @@
       height: 3rem;
     }
 
+    #pxColors {
+      display: flex;
+      margin-bottom: 2px;
+    }
+
+    #pxColors .color-square {
+      width: 1px;
+      height: 1px;
+    }
+
     #smallColors {
       display: flex;
       margin-bottom: 1rem;
@@ -55,6 +65,7 @@
 
 <body>
   <div class="sandbox">
+    <section id="pxColors"></section>
     <section id="smallColors"></section>
     <section id="colors"></section>
     <section id="lines"></section>
@@ -86,6 +97,7 @@
       "#0D21A1",
       "#011638",
     ];
+    const c0 = document.getElementById("pxColors");
     const c1 = document.getElementById("smallColors");
     const c2 = document.getElementById("colors");
     const c3 = document.getElementById("lines");
@@ -94,6 +106,7 @@
       var div = document.createElement("div");
       div.classList.add("color-square");
       div.style.backgroundColor = c;
+      c0.append(div.cloneNode(true));
       c1.append(div.cloneNode(true));
       c2.append(div.cloneNode(true));
       c3.append(div.cloneNode(true));
