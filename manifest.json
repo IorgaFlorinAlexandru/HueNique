@@ -24,7 +24,7 @@
   "commands": {
     "huenique-command": {
       "suggested_key": {
-        "default": "Ctrl+Shift+U"
+        "default": "Alt+Q"
       },
       "description": "Opens the eye dropper"
     }

@@ -26,8 +26,10 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
   );
 });
 
-browser.commands.onCommand.addListener((command) => {
+browser.commands.onCommand.addListener(async (command,tab) => {
   if (command !== "huenique-command") return;
+  
+  await executeScript(tab);
 });
 
 async function executeScript(tab) {
