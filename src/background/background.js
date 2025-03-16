@@ -16,7 +16,7 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
 });
 
 browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  return browser.tabs.captureVisibleTab().then(
+  return browser.tabs.captureVisibleTab({ format: "png", quality: 100 }).then(
     (imageUri) => {
       return imageUri;
     },
@@ -26,9 +26,9 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
   );
 });
 
-browser.commands.onCommand.addListener(async (command,tab) => {
+browser.commands.onCommand.addListener(async (command, tab) => {
   if (command !== "huenique-command") return;
-  
+
   await executeScript(tab);
 });
 

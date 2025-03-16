@@ -2,12 +2,14 @@ class Renderer {
   constructor(pixelSize, canvasSize) {
     this.size = pixelSize;
     this.canvas = this.createPixelCanvas(canvasSize);
-    this.ctx = this.canvas.getContext("2d");
+    this.ctx = this.canvas.getContext("2d", { alpha: false });
+    this.rows = Math.floor(canvasSize / pixelSize);
+    this.midPoint = (canvasSize - pixelSize) / 2;
   }
 
   createPixelCanvas(canvasSize) {
     const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d", { alpha: false });
     canvas.width = canvasSize;
     canvas.height = canvasSize;
     ctx.strokeStyle = "#363636";
@@ -18,14 +20,24 @@ class Renderer {
 
   drawPixelCanvas(x, y, width, bffr) {
     const px = y * width + x;
-    this.drawPixelRow(px, 50, 50, bffr);
+    this.drawPixelRow(px, this.midPoint, this.midPoint, bffr);
 
-    for (let i = 1; i < 6; i++) {
+    for (let i = 1; i <= this.rows; i++) {
       const tPx = (y - i) * width + x;
-      this.drawPixelRow(tPx, 50, 50 - i * this.size, bffr);
+      this.drawPixelRow(
+        tPx,
+        this.midPoint,
+        this.midPoint - i * this.size,
+        bffr,
+      );
 
       const bPx = (y + i) * width + x;
-      this.drawPixelRow(bPx, 50, 50 + i * this.size, bffr);
+      this.drawPixelRow(
+        bPx,
+        this.midPoint,
+        this.midPoint + i * this.size,
+        bffr,
+      );
     }
 
     this.highlightMousePixel();
@@ -33,7 +45,7 @@ class Renderer {
 
   drawPixelRow(px, x, y, bffr) {
     this.drawPixelColor(x, y, bffr.slice(px * 4, px * 4 + 3));
-    for (let i = 1; i < 6; i++) {
+    for (let i = 1; i <= this.rows; i++) {
       const lPx = (px - i) * 4;
       this.drawPixelColor(x - i * this.size, y, bffr.slice(lPx, lPx + 3));
 
@@ -50,14 +62,20 @@ class Renderer {
   }
 
   highlightMousePixel() {
-    this.ctx.save();
     this.ctx.lineWidth = 1;
     this.ctx.strokeStyle = "black";
-    this.ctx.strokeRect(49, 49, this.size+2, this.size+2);
+    this.ctx.strokeRect(
+      this.midPoint - 1,
+      this.midPoint - 1,
+      this.size + 2,
+      this.size + 2,
+    );
     this.ctx.lineWidth = 1.5;
     this.ctx.strokeStyle = "white";
-    this.ctx.strokeRect(50, 50, this.size, this.size);
-    this.ctx.restore();
+    this.ctx.strokeRect(this.midPoint, this.midPoint, this.size, this.size);
+
+    this.ctx.strokeStyle = "#363636";
+    this.ctx.lineWidth = 0.2;
   }
 
   clear() {

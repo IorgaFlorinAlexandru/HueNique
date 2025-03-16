@@ -25,14 +25,14 @@ const styles = {
     zIndex: "99999",
     color: "black",
     background: "#e7e5e4",
-    fontFamily: "Verdana, sans-serif"
+    fontFamily: "Verdana, sans-serif",
   },
   colorIndicator: {
     display: "inline-block",
     width: "20px",
     height: "20px",
-    border: "1px solid #363636",
-    borderRadius: "3px"
+    border: "1px solid #4e4e4e",
+    borderRadius: "3px",
   },
 };
 
@@ -41,7 +41,7 @@ class HueniqueEyeDropper {
     this.eventHandlers = new Map();
     this.magnifier = null;
     this.previewBox = null;
-    this.renderer = new Renderer(10, 110);
+    this.renderer = new Renderer(8, 112);
   }
 
   open() {
@@ -52,7 +52,7 @@ class HueniqueEyeDropper {
       this.disableScroll();
 
       const eyeDropper = this;
-      return new Promise(function (resolve) {
+      return new Promise(function(resolve) {
         document.body.addEventListener(
           "mousedown",
           (e) => {
@@ -205,11 +205,11 @@ class HueniqueEyeDropper {
     if (x <= 120) {
       pX = x;
     }
-    if(x >= innerWidth-120) {
+    if (x >= innerWidth - 120) {
       pX = x - 200;
     }
 
-    if(y >= innerHeight - 120) {
+    if (y >= innerHeight - 120) {
       pY = y - 95;
     }
 
