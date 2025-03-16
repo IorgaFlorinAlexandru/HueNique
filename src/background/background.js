@@ -12,6 +12,25 @@ browser.contextMenus.create(
 browser.contextMenus.onClicked.addListener(async (info, tab) => {
   if (info.menuItemId !== "huenique") return;
 
+  await executeScript(tab);
+});
+
+browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  return browser.tabs.captureVisibleTab().then(
+    (imageUri) => {
+      return imageUri;
+    },
+    (error) => {
+      console.error("Error while trying to capture visible tab:", error);
+    },
+  );
+});
+
+browser.commands.onCommand.addListener((command) => {
+  if (command !== "huenique-command") return;
+});
+
+async function executeScript(tab) {
   try {
     await browser.scripting.executeScript({
       target: {
@@ -24,17 +43,4 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
   } catch (error) {
     console.error("failed to execute script:", error);
   }
-});
-
-browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log(request);
-
-  return browser.tabs.captureVisibleTab().then(
-    (imageUri) => {
-      return imageUri;
-    },
-    (error) => {
-      console.error("Error while trying to capture visible tab:", error);
-    },
-  );
-});
+}

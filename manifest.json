@@ -21,6 +21,15 @@
     "scripts": ["src/background/background.js"]
   },
 
+  "commands": {
+    "huenique-command": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+U"
+      },
+      "description": "Opens the eye dropper"
+    }
+  },
+
   "content_scripts": [
     {
       "matches": ["<all_urls>"],

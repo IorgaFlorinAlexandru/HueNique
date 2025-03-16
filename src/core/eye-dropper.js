@@ -2,9 +2,12 @@ const styles = {
   eyeDropper: {
     width: "110px",
     height: "110px",
-    position: "fixed",
+    position: "absolute",
     border: "2px solid white",
     cursor: "none",
+    overflow: "hidden",
+    boxSizing: "unset",
+    borderRadius: "100%",
     zIndex: "99999",
   },
 };
@@ -13,6 +16,7 @@ class HueniqueEyeDropper {
   constructor() {
     this.eventHandlers = new Map();
     this.magnifier = null;
+    this.eyeDropperElement = null;
     this.renderer = new Renderer(10, 110);
   }
 
@@ -24,7 +28,7 @@ class HueniqueEyeDropper {
       this.disableScroll();
 
       const eyeDropper = this;
-      return new Promise(function (resolve) {
+      return new Promise(function(resolve) {
         document.body.addEventListener(
           "mousedown",
           (e) => {
@@ -87,8 +91,11 @@ class HueniqueEyeDropper {
 
     const buffer8 = new Uint8Array(imageData.data.buffer); // what is endian, big or little
     const innerWidth = window.innerWidth;
+    const scrollY = window.scrollY;
     const handler = (e) => {
+      this.moveMagnifier(e.clientX, e.clientY + scrollY);
       this.renderer.drawPixelCanvas(e.clientX, e.clientY, innerWidth, buffer8);
+      //Colors.getHexcodeFromPixel(buffer8,e.clientX,e.clientY,innerWidth);
     };
 
     this.eventHandlers.set("mousemove", handler);
@@ -146,6 +153,11 @@ class HueniqueEyeDropper {
   removeMagnifier() {
     document.body.removeChild(this.magnifier);
     this.magnifier = null;
+  }
+
+  moveMagnifier(x, y) {
+    this.magnifier.style.left = x - 55 + "px";
+    this.magnifier.style.top = y - 55 + "px";
   }
 
   onDestroy() {
