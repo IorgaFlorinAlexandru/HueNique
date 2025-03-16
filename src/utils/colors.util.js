@@ -17,6 +17,6 @@ class Colors {
     const i = (y * width + x) * 4;
     const u8 = new Uint8Array(bffr.slice(i, i + 3));
 
-    return u8.toHex();
+    return "#" + u8.toHex();
   }
 }
