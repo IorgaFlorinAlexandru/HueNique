@@ -41,7 +41,8 @@ class HueniqueEyeDropper {
     this.eventHandlers = new Map();
     this.magnifier = null;
     this.previewBox = null;
-    this.renderer = new Renderer(8, 112);
+    //this.renderer = new Renderer(8, 112);
+    this.renderer = new Renderer2(14,112);
   }
 
   open() {
@@ -52,7 +53,7 @@ class HueniqueEyeDropper {
       this.disableScroll();
 
       const eyeDropper = this;
-      return new Promise(function(resolve) {
+      return new Promise(function (resolve) {
         document.body.addEventListener(
           "mousedown",
           (e) => {
@@ -118,19 +119,25 @@ class HueniqueEyeDropper {
     const scrollY = window.scrollY;
     const handler = (e) => {
       this.moveEyeDropper(e.clientX, e.clientY + scrollY);
-      this.renderer.drawPixelCanvas(e.clientX, e.clientY, innerWidth, buffer8);
+      console.time("imageCanvas");
+      this.renderer.drawPixelCanvas(e.clientX, e.clientY, imageCanvas);
+      //this.renderer.drawPixelCanvas(e.clientX,e.clientY,innerWidth,buffer8);
+      console.timeEnd("imageCanvas");
       this.previewColor(e.clientX, e.clientY, buffer8, innerWidth);
     };
 
     this.eventHandlers.set("mousemove", handler);
 
-    document.body.addEventListener("mousemove", handler, false);
+    document.body.addEventListener("mousemove", handler, {
+      passive: true,
+      capture: true,
+    });
     this.magnifier.appendChild(this.renderer.canvas);
   }
 
   removeMouseMoveEvent() {
     const handler = this.eventHandlers.get("mousemove");
-    document.body.removeEventListener("mousemove", handler, false);
+    document.body.removeEventListener("mousemove", handler, true);
   }
 
   disableScroll() {
