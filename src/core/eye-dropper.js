@@ -1,13 +1,13 @@
 const styles = {
   magnifier: {
-    width: "110px",
-    height: "110px",
+    width: "104px",
+    height: "104px",
     position: "absolute",
     border: "2px solid #e7e5e4",
     cursor: "none",
+    borderRadius: "100%",
     overflow: "hidden",
     boxSizing: "unset",
-    borderRadius: "100%",
     zIndex: "99999",
   },
   previewBox: {
@@ -41,8 +41,7 @@ class HueniqueEyeDropper {
     this.eventHandlers = new Map();
     this.magnifier = null;
     this.previewBox = null;
-    //this.renderer = new Renderer(8, 112);
-    this.renderer = new Renderer2(14,112);
+    this.renderer = new Renderer2(13, 104);
   }
 
   open() {
@@ -53,7 +52,7 @@ class HueniqueEyeDropper {
       this.disableScroll();
 
       const eyeDropper = this;
-      return new Promise(function (resolve) {
+      return new Promise(function(resolve) {
         document.body.addEventListener(
           "mousedown",
           (e) => {
@@ -121,7 +120,6 @@ class HueniqueEyeDropper {
       this.moveEyeDropper(e.clientX, e.clientY + scrollY);
       console.time("imageCanvas");
       this.renderer.drawPixelCanvas(e.clientX, e.clientY, imageCanvas);
-      //this.renderer.drawPixelCanvas(e.clientX,e.clientY,innerWidth,buffer8);
       console.timeEnd("imageCanvas");
       this.previewColor(e.clientX, e.clientY, buffer8, innerWidth);
     };
@@ -132,7 +130,7 @@ class HueniqueEyeDropper {
       passive: true,
       capture: true,
     });
-    this.magnifier.appendChild(this.renderer.canvas);
+    this.magnifier.appendChild(this.renderer.container);
   }
 
   removeMouseMoveEvent() {
