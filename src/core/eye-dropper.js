@@ -41,8 +41,8 @@ class HueniqueEyeDropper {
     this.eventHandlers = new Map();
     this.magnifier = null;
     this.previewBox = null;
-    //this.renderer = new Renderer(8, 112);
-    this.renderer = new Renderer2(14,112);
+    this.renderer = new Renderer(10, 110);
+    //this.renderer = new Renderer2(14,112);
   }
 
   open() {
@@ -120,8 +120,8 @@ class HueniqueEyeDropper {
     const handler = (e) => {
       this.moveEyeDropper(e.clientX, e.clientY + scrollY);
       console.time("imageCanvas");
-      this.renderer.drawPixelCanvas(e.clientX, e.clientY, imageCanvas);
-      //this.renderer.drawPixelCanvas(e.clientX,e.clientY,innerWidth,buffer8);
+      //this.renderer.drawPixelCanvas(e.clientX, e.clientY, imageCanvas);
+      this.renderer.drawPixelCanvas(e.clientX-5,e.clientY-5,iCtx);
       console.timeEnd("imageCanvas");
       this.previewColor(e.clientX, e.clientY, buffer8, innerWidth);
     };
