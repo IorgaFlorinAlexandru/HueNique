@@ -10,18 +10,40 @@ class Renderer2 {
 
   createContainer(size, regionSize) {
     const div = document.createElement("div");
-
     div.style.width = size;
     div.style.height = size;
     div.style.position = "relative";
 
+    const gridCanvas = this.createGridCanvas(size, regionSize);
+    const highlightCanvas = this.createHighlightCanvas(size, regionSize);
+
+    div.appendChild(this.canvas);
+    div.appendChild(gridCanvas);
+    div.appendChild(highlightCanvas);
+
+    return div;
+  }
+
+  createPixelCanvas(size) {
     const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d", { alpha: false });
+    canvas.width = size;
+    canvas.height = size;
+    ctx.imageSmoothingEnabled = false;
+    ctx.webkitImageSmoothingEnabled = false;
+
+    return canvas;
+  }
+
+  createGridCanvas(size, regionSize) {
+    const canvas = document.createElement("canvas");
     canvas.width = size;
     canvas.height = size;
     canvas.style.position = "absolute";
     canvas.style.left = "0";
     canvas.style.mixBlendMode = "difference";
+
+    const ctx = canvas.getContext("2d");
     ctx.strokeStyle = "white";
     ctx.lineWidth = 0.3;
 
@@ -38,36 +60,26 @@ class Renderer2 {
       ctx.stroke();
     }
 
-    const hCanvas = document.createElement("canvas");
-    const hCtx = hCanvas.getContext("2d");
-    hCanvas.width = size;
-    hCanvas.height = size;
-    hCanvas.style.position = "absolute";
-    hCanvas.style.left = "0";
-
-    const mPoint = (size-pxSize)/2;
-    hCtx.strokeStyle = 'white';
-    hCtx.lineWidth = 2;
-    hCtx.strokeRect(mPoint,mPoint,pxSize, pxSize);
-
-    hCtx.strokeStyle = 'black';
-    hCtx.lineWidth = 1;
-    hCtx.strokeRect(mPoint-1,mPoint-1,pxSize+2, pxSize+2);
-
-    div.appendChild(this.canvas);
-    div.appendChild(canvas);
-    div.appendChild(hCanvas);
-
-    return div;
+    return canvas;
   }
 
-  createPixelCanvas(canvasSize) {
+  createHighlightCanvas(size, regionSize) {
+    const pxSize = Math.ceil(size / regionSize);
     const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d", { alpha: false });
-    canvas.width = canvasSize;
-    canvas.height = canvasSize;
-    ctx.imageSmoothingEnabled = false;
-    ctx.webkitImageSmoothingEnabled = false;
+    canvas.width = size;
+    canvas.height = size;
+    canvas.style.position = "absolute";
+    canvas.style.left = "0";
+
+    const ctx = canvas.getContext("2d");
+    const mPoint = (size - pxSize) / 2;
+    ctx.strokeStyle = "white";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(mPoint, mPoint, pxSize, pxSize);
+
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(mPoint - 1, mPoint - 1, pxSize + 2, pxSize + 2);
 
     return canvas;
   }
