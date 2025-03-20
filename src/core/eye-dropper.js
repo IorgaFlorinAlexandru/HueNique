@@ -21,10 +21,10 @@ const styles = {
     backgroundColor: "#fff",
     position: "absolute",
     boxSizing: "unset",
-    borderRadius: "3px",
+    borderRadius: "5px",
     zIndex: "99999",
-    color: "black",
-    background: "#e7e5e4",
+    color: "#333333",
+    background: "#F4F4F5",
     fontFamily: "Verdana, sans-serif",
   },
   colorIndicator: {
@@ -118,9 +118,7 @@ class HueniqueEyeDropper {
     const scrollY = window.scrollY;
     const handler = (e) => {
       this.moveEyeDropper(e.clientX, e.clientY + scrollY);
-      console.time("imageCanvas");
       this.renderer.drawPixelCanvas(e.clientX, e.clientY, imageCanvas);
-      console.timeEnd("imageCanvas");
       this.previewColor(e.clientX, e.clientY, buffer8, innerWidth);
     };
 

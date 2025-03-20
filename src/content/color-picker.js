@@ -8,7 +8,6 @@ document.addEventListener('mousemove', (event) => {
 
 function huenique() {
   eyeDropper.open().then((color) => {
-    console.log(color.hex);
-    navigator.clipboard.writeText("#" + color.hex);
+    ColorModal.openModal(color);
   });
 }

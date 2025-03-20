@@ -38,8 +38,13 @@
         "src/core/renderer.js",
         "src/core/renderer2.js",
         "src/utils/colors.util.js",
+        "src/utils/color-modal.util.js",
         "src/content/color-picker.js"
       ]
+    },
+    {
+      "matches": ["<all_urls>"],
+      "css": [ "src/styles.css" ]
     }
   ]
 
