@@ -8,6 +8,7 @@ class Colors {
 
     const rgbColor = `rgb(${u8[0]}, ${u8[1]}, ${u8[2]})`;
     return {
+      data: u8,
       rgb: rgbColor,
       hex: u8.toHex(),
     };

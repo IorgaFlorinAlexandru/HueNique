@@ -1,31 +1,32 @@
 class ColorModal {
   static openModal(color) {
-    const backdrop = document.createElement("div");
-    const modal = document.createElement("div");
-    backdrop.classList.add("modal-backdrop");
-    modal.classList.add("modal");
-    
-    const cSqr = document.createElement("div");
-    cSqr.classList.add("selected-color");
-    cSqr.style.backgroundColor = color.rgb;
-    modal.appendChild(cSqr);
+    const url = browser.runtime.getURL("src/modal/modal.html");
+    fetch(url)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Fetching modal template failed:", response);
+        }
 
-    const handler = (e) => {
-      e.stopPropagation();
-    };
+        return response.text();
+      })
+      .then((html) => {
+        const backdrop = document.createElement("div");
+        backdrop.classList.add("modal-backdrop");
 
-    modal.addEventListener("click", handler, false);
+        const handler = (e) => {
+          if (e.target === backdrop) {
+            backdrop.removeEventListener("click", handler, false);
+            document.body.removeChild(backdrop);
+          }
+        };
 
-    backdrop.addEventListener(
-      "click",
-      () => {
-        modal.removeEventListener("click", handler, false);
-        document.body.removeChild(backdrop);
-      },
-      { once: true },
-    );
+        backdrop.addEventListener("click", handler, false);
 
-    backdrop.appendChild(modal);
-    document.body.appendChild(backdrop);
-  }
+        html = html.replace(/{{COLORHEXCODE}}/g, "#" + color.hex);
+
+        backdrop.setHTMLUnsafe(html);
+
+        document.body.appendChild(backdrop);
+      })
+      .catch((error) => console.log(error)); }
 }

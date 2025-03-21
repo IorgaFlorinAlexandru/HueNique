@@ -1,3 +1,8 @@
+@font-face {
+  font-family: Geist;
+  src: url("./assets/fonts/Geist-Regular.woff2");
+}
+
 .modal-backdrop {
   display: flex;
   justify-content: center;
@@ -10,16 +15,4 @@
   background: rgb(0, 0, 0, 0.5);
 }
 
-.modal {
-  width: 448px;
-  height: 460px;
-  padding: 1.275rem;
-  background: #fff;
-  border-radius: 5px;
-}
 
-.selected-color {
-  width: 80px;
-  height: 80px;
-  border-radius: 5px;
-}
