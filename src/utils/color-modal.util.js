@@ -14,7 +14,9 @@ class ColorModal {
         backdrop.classList.add("modal-backdrop");
 
         const handler = (e) => {
-          if (e.target === backdrop) {
+          const closeBtn = backdrop.getElementsByClassName("close-btn")[0];
+          const hasPressedCloseBtn = e.target === closeBtn || closeBtn.contains(e.target);
+          if (e.target === backdrop || hasPressedCloseBtn) {
             backdrop.removeEventListener("click", handler, false);
             document.body.removeChild(backdrop);
           }

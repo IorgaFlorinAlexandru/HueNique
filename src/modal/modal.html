@@ -1,231 +1,213 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <style>
-      .huenique-modal {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-        width: 448px;
-        height: 460px;
-        position: relative;
-        padding: 1.275rem;
-        border-radius: 5px;
-        background: #fff;
-        color: #333333;
-        font-family: "Geist";
-      }
 
-      .huenique-modal .modal-info {
-        display: flex;
-        gap: 1rem;
-        height: 80px;
-        margin-bottom: 1rem;
-      }
+<head>
+  <meta charset="utf-8" />
+  <style>
+    .huenique-modal {
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      width: 448px;
+      height: 460px;
+      position: relative;
+      padding: 1.275rem;
+      border-radius: 5px;
+      background: #fff;
+      color: #333333;
+      font-family: "Geist";
+    }
 
-      .huenique-modal .color-square {
-        width: 80px;
-        height: 80px;
-        border-radius: 5px;
-      }
+    .huenique-modal * {
+      box-sizing: border-box;
+    }
 
-      .color-info {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
+    .huenique-modal .modal-info {
+      display: flex;
+      gap: 1rem;
+      height: 80px;
+      margin-bottom: 1rem;
+    }
 
-      .info-subtitle {
-        color: #9fa0a5;
-        margin: 0;
-        font-weight: 600;
-        font-size: 14px;
-      }
+    .huenique-modal .color-square {
+      width: 80px;
+      height: 80px;
+      border-radius: 5px;
+    }
 
-      .hexcode {
-        margin: 0;
-        font-weight: 700;
-        font-size: 18px;
-        text-transform: uppercase;
-      }
+    .color-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
 
-      .modal-btn {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        width: min-content;
-        padding: 0.4rem;
-        border: none;
-        border-radius: 5px;
-        font-size: 14px;
-        font-weight: 500;
-        color: #333333;
-        background-color: transparent;
-      }
+    .info-subtitle {
+      color: #9fa0a5;
+      margin: 0;
+      font-weight: 600;
+      font-size: 14px;
+    }
 
-      .modal-btn:hover {
-        background-color: #f4f4f5;
-        cursor: pointer;
-      }
+    .hexcode {
+      margin: 0;
+      font-weight: 700;
+      font-size: 18px;
+      text-transform: uppercase;
+    }
 
-      .modal-btn:hover {
-        background-color: #f4f4f5;
-        color: black;
-      }
+    .modal-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      width: min-content;
+      padding: 0.4rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #333333;
+      background-color: transparent;
+    }
 
-      .huenique-modal .format {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        height: 55px;
-        padding: 0 0.625rem;
-        margin-bottom: 1rem;
-        border: 1px solid #e4e4e7;
-        border-radius: 5px;
-      }
+    .modal-btn:hover {
+      background-color: #f4f4f5;
+      cursor: pointer;
+    }
 
-      .color-format {
-        margin-bottom: 3px;
-        font-size: 12px;
-        font-weight: 600;
-        color: #9fa0a5;
-      }
+    .modal-btn:hover {
+      background-color: #f4f4f5;
+      color: black;
+    }
 
-      .format-value {
-        font-size: 18px;
-        font-weight: 600;
-      }
+    .huenique-modal .format {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 55px;
+      padding: 0 0.625rem;
+      margin-bottom: 1rem;
+      border: 1px solid #e4e4e7;
+      border-radius: 5px;
+    }
 
-      .close-btn {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        border-radius: 100%;
-      }
-    </style>
-  </head>
+    .color-format {
+      margin-bottom: 3px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #9fa0a5;
+    }
 
-  <body>
-    <div #modal class="huenique-modal">
-      <section class="modal-info">
-        <div class="color-square" style="background: {{COLORHEXCODE}}"></div>
-        <div class="color-info">
-          <h5 class="info-subtitle">Selected Color</h5>
-          <h4 class="hexcode">{{COLORHEXCODE}}</h4>
-          <button class="copy-btn modal-btn">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-              <path
-                d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
-              />
-            </svg>
-            <span>Copy</span>
-          </button>
+    .format-value {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      border-radius: 100%;
+    }
+
+    .color-variations {
+      display: flex;
+      height: 40px;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .color-variations .var {
+      flex: 1;
+      border: none;
+      background: red;
+    }
+
+    .color-variations .var:hover {
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div #modal class="huenique-modal">
+    <section class="modal-info">
+      <div class="color-square" style="background: {{COLORHEXCODE}}"></div>
+      <div class="color-info">
+        <h5 class="info-subtitle">Selected Color</h5>
+        <h4 class="hexcode">{{COLORHEXCODE}}</h4>
+        <button class="copy-btn modal-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+          </svg>
+          <span>Copy</span>
+        </button>
+      </div>
+    </section>
+    <section class="formats">
+      <div class="format">
+        <div class="info">
+          <div class="color-format">HEX</div>
+          <div class="format-value">#121212</div>
         </div>
-      </section>
-      <section class="formats">
-        <div class="format">
-          <div class="info">
-            <div class="color-format">HEX</div>
-            <div class="format-value">#121212</div>
-          </div>
-          <button class="copy-btn modal-btn">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-              <path
-                d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
-              />
-            </svg>
-          </button>
+        <button type="button" class="copy-btn modal-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+          </svg>
+        </button>
+      </div>
+      <div class="format">
+        <div class="info">
+          <div class="color-format">HEX</div>
+          <div class="format-value">#121212</div>
         </div>
-        <div class="format">
-          <div class="info">
-            <div class="color-format">HEX</div>
-            <div class="format-value">#121212</div>
-          </div>
-          <button class="copy-btn modal-btn">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-              <path
-                d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
-              />
-            </svg>
-          </button>
+        <button type="button" class="copy-btn modal-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+          </svg>
+        </button>
+      </div>
+      <div class="format">
+        <div class="info">
+          <div class="color-format">HEX</div>
+          <div class="format-value">#121212</div>
         </div>
-        <div class="format">
-          <div class="info">
-            <div class="color-format">HEX</div>
-            <div class="format-value">#121212</div>
-          </div>
-          <button class="copy-btn modal-btn">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-              <path
-                d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
-              />
-            </svg>
-          </button>
-        </div>
-      </section>
-      <section class="color-variatons"></section>
-      <button class="close-btn modal-btn">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M18 6 6 18" />
-          <path d="m6 6 12 12" />
-        </svg>
-      </button>
-    </div>
-  </body>
-  <script></script>
+        <button type="button " class="copy-btn modal-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+          </svg>
+        </button>
+      </div>
+    </section>
+    <section class="color-tints-shades">
+      <div class="tabs">
+        <button type="button" class="tab-button active">Shades</button>
+        <button type="button" class="tab-button">Tints</button>
+      </div>
+      <div class="color-variations">
+        <button type="button" class="var" style="background-color: #8587f4"></button>
+        <button type="button" class="var" style="background-color: #a1a3f7"></button>
+        <button type="button" class="var" style="background-color: #c2c3fa"></button>
+        <button type="button" class="var" style="background-color: #dedffc"></button>
+        <button type="button" class="var" style="background-color: #e8e8fd"></button>
+      </div>
+    </section>
+    <button type="button" id="close" class="close-btn modal-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 6 6 18" />
+        <path d="m6 6 12 12" />
+      </svg>
+    </button>
+  </div>
+</body>
+<script></script>
+
 </html>
