@@ -12,6 +12,7 @@ document.addEventListener(
 
 function huenique() {
   eyeDropper.open().then((color) => {
+    console.log(color);
     ColorModal.openModal(color);
   });
 }

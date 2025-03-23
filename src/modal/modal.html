@@ -1,213 +1,198 @@
 <!doctype html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      .huenique-modal {
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        width: 448px;
+        height: 460px;
+        position: relative;
+        padding: 1.275rem;
+        border-radius: 5px;
+        background: #fff;
+        color: #333333;
+        font-family: "Geist";
+      }
 
-<head>
-  <meta charset="utf-8" />
-  <style>
-    .huenique-modal {
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      width: 448px;
-      height: 460px;
-      position: relative;
-      padding: 1.275rem;
-      border-radius: 5px;
-      background: #fff;
-      color: #333333;
-      font-family: "Geist";
-    }
+      .huenique-modal * {
+        box-sizing: border-box;
+      }
 
-    .huenique-modal * {
-      box-sizing: border-box;
-    }
+      .huenique-modal .modal-header {
+        display: flex;
+        gap: 1rem;
+        height: 80px;
+        margin-bottom: 1rem;
+      }
 
-    .huenique-modal .modal-info {
-      display: flex;
-      gap: 1rem;
-      height: 80px;
-      margin-bottom: 1rem;
-    }
+      .huenique-modal .color-swatch {
+        width: 80px;
+        height: 80px;
+        border-radius: 5px;
+      }
 
-    .huenique-modal .color-square {
-      width: 80px;
-      height: 80px;
-      border-radius: 5px;
-    }
+      .color-details {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
 
-    .color-info {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
+      .details-label {
+        color: #9fa0a5;
+        margin: 0;
+        font-weight: 600;
+        font-size: 14px;
+      }
 
-    .info-subtitle {
-      color: #9fa0a5;
-      margin: 0;
-      font-weight: 600;
-      font-size: 14px;
-    }
+      .color-code {
+        margin: 0;
+        font-weight: 700;
+        font-size: 18px;
+        text-transform: uppercase;
+      }
 
-    .hexcode {
-      margin: 0;
-      font-weight: 700;
-      font-size: 18px;
-      text-transform: uppercase;
-    }
+      .modal-btn {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        width: min-content;
+        padding: 0.4rem;
+        border: none;
+        border-radius: 5px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #333333;
+        background-color: transparent;
+      }
 
-    .modal-btn {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      width: min-content;
-      padding: 0.4rem;
-      border: none;
-      border-radius: 5px;
-      font-size: 14px;
-      font-weight: 500;
-      color: #333333;
-      background-color: transparent;
-    }
+      .modal-btn:hover {
+        background-color: #f4f4f5;
+        cursor: pointer;
+      }
 
-    .modal-btn:hover {
-      background-color: #f4f4f5;
-      cursor: pointer;
-    }
+      .modal-btn:hover {
+        background-color: #f4f4f5;
+        color: black;
+      }
 
-    .modal-btn:hover {
-      background-color: #f4f4f5;
-      color: black;
-    }
+      .huenique-modal .format {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 55px;
+        padding: 0 0.625rem;
+        margin-bottom: 1rem;
+        border: 1px solid #e4e4e7;
+        border-radius: 5px;
+      }
 
-    .huenique-modal .format {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 55px;
-      padding: 0 0.625rem;
-      margin-bottom: 1rem;
-      border: 1px solid #e4e4e7;
-      border-radius: 5px;
-    }
+      .format-label {
+        margin-bottom: 3px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #9fa0a5;
+        text-transform: uppercase;
+      }
 
-    .color-format {
-      margin-bottom: 3px;
-      font-size: 12px;
-      font-weight: 600;
-      color: #9fa0a5;
-    }
+      .format-code {
+        font-size: 16px;
+        font-weight: 600;
+      }
 
-    .format-value {
-      font-size: 16px;
-      font-weight: 600;
-    }
+      .close-btn {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        border-radius: 100%;
+      }
 
-    .close-btn {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      border-radius: 100%;
-    }
+      .color-variations {
+        height: 40px;
+        border-radius: 5px;
+        overflow: hidden;
+      }
 
-    .color-variations {
-      display: flex;
-      height: 40px;
-      border-radius: 5px;
-      overflow: hidden;
-    }
+      .color-variations div {
+        display: flex;
+        width: 100%;
+        height: 100%;
+      }
 
-    .color-variations .var {
-      flex: 1;
-      border: none;
-      background: red;
-    }
+      .color-variations #shades {
+        display: none;
+      }
 
-    .color-variations .var:hover {
-      cursor: pointer;
-    }
-  </style>
-</head>
+      .color-variations .var {
+        flex: 1;
+        border: none;
+        background: red;
+      }
 
-<body>
-  <div #modal class="huenique-modal">
-    <section class="modal-info">
-      <div class="color-square" style="background: {{COLORHEXCODE}}"></div>
-      <div class="color-info">
-        <h5 class="info-subtitle">Selected Color</h5>
-        <h4 class="hexcode">{{COLORHEXCODE}}</h4>
-        <button class="copy-btn modal-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-          </svg>
-          <span>Copy</span>
-        </button>
-      </div>
-    </section>
-    <section class="formats">
-      <div class="format">
-        <div class="info">
-          <div class="color-format">HEX</div>
-          <div class="format-value">#121212</div>
+      .color-variations .var:hover {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div #modal class="huenique-modal">
+      <section class="modal-header">
+        <div class="color-swatch" style="background: {{COLORHEXCODE}}"></div>
+        <div class="color-details">
+          <h5 class="details-label">Selected Color</h5>
+          <h4 class="color-code">{{COLORHEXCODE}}</h4>
+          <button class="copy-btn modal-btn">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+              <path
+                d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"
+              />
+            </svg>
+            <span>Copy</span>
+          </button>
         </div>
-        <button type="button" class="copy-btn modal-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-          </svg>
-        </button>
-      </div>
-      <div class="format">
-        <div class="info">
-          <div class="color-format">HEX</div>
-          <div class="format-value">#121212</div>
+      </section>
+      <section class="formats"></section>
+      <section class="color-tints-shades">
+        <div class="tabs">
+          <button type="button" class="tab-button active">Tints</button>
+          <button type="button" class="tab-button">Shades</button>
         </div>
-        <button type="button" class="copy-btn modal-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-          </svg>
-        </button>
-      </div>
-      <div class="format">
-        <div class="info">
-          <div class="color-format">HEX</div>
-          <div class="format-value">#121212</div>
+        <div class="color-variations">
+          <div id="tints"></div>
+          <div id="shades"></div>
         </div>
-        <button type="button " class="copy-btn modal-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
-            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
-          </svg>
-        </button>
-      </div>
-    </section>
-    <section class="color-tints-shades">
-      <div class="tabs">
-        <button type="button" class="tab-button active">Shades</button>
-        <button type="button" class="tab-button">Tints</button>
-      </div>
-      <div class="color-variations">
-        <button type="button" class="var" style="background-color: #8587f4"></button>
-        <button type="button" class="var" style="background-color: #a1a3f7"></button>
-        <button type="button" class="var" style="background-color: #c2c3fa"></button>
-        <button type="button" class="var" style="background-color: #dedffc"></button>
-        <button type="button" class="var" style="background-color: #e8e8fd"></button>
-      </div>
-    </section>
-    <button type="button" id="close" class="close-btn modal-btn">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M18 6 6 18" />
-        <path d="m6 6 12 12" />
-      </svg>
-    </button>
-  </div>
-</body>
-<script></script>
-
+      </section>
+      <button type="button" id="close" class="close-btn modal-btn">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M18 6 6 18" />
+          <path d="m6 6 12 12" />
+        </svg>
+      </button>
+    </div>
+  </body>
+  <script></script>
 </html>
