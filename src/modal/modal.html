@@ -8,7 +8,6 @@
         display: flex;
         flex-direction: column;
         width: 448px;
-        height: 460px;
         position: relative;
         padding: 1.275rem;
         border-radius: 5px;
@@ -66,6 +65,7 @@
         font-weight: 500;
         color: #333333;
         background-color: transparent;
+        transition: 0.1s ease-in;
       }
 
       .modal-btn:hover {
@@ -146,6 +146,7 @@
           <h4 class="color-code">{{COLORHEXCODE}}</h4>
           <button class="copy-btn modal-btn">
             <svg
+              id="copy-svg"
               xmlns="http://www.w3.org/2000/svg"
               width="16"
               height="16"

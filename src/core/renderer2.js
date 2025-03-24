@@ -39,6 +39,7 @@ class Renderer2 {
     const canvas = document.createElement("canvas");
     canvas.width = size;
     canvas.height = size;
+    canvas.style.display = "inline";
     canvas.style.position = "absolute";
     canvas.style.left = "0";
     canvas.style.mixBlendMode = "difference";
@@ -68,6 +69,7 @@ class Renderer2 {
     const canvas = document.createElement("canvas");
     canvas.width = size;
     canvas.height = size;
+    canvas.style.display = "inline";
     canvas.style.position = "absolute";
     canvas.style.left = "0";
 

@@ -14,7 +14,7 @@ class ColorModal {
         backdrop.classList.add("modal-backdrop");
 
         const handler = (e) => {
-          const closeBtn = backdrop.getElementsByClassName("close-btn")[0];
+          const closeBtn = backdrop.querySelector(".close-btn");
           const hasPressedCloseBtn =
             e.target === closeBtn || closeBtn.contains(e.target);
           if (e.target === backdrop || hasPressedCloseBtn) {
@@ -25,6 +25,7 @@ class ColorModal {
         html = html.replace(/{{COLORHEXCODE}}/g, color.hex.string);
 
         backdrop.setHTMLUnsafe(html);
+        console.log(backdrop.querySelector("script"));
 
         const formats = backdrop.querySelector(".formats");
         if (!formats) {
@@ -58,13 +59,13 @@ class ColorModal {
           const button = document.createElement("button");
           button.type = "button";
           button.classList.add("modal-btn");
-          button.innerText = "Copy";
-          format.appendChild(button);
-
+          const svg = backdrop.querySelector("#copy-svg");
+          button.appendChild(svg.cloneNode(true));
           button.onclick = () => {
             navigator.clipboard.writeText(value);
           };
 
+          format.appendChild(button);
           formats.appendChild(format);
         }
 
@@ -80,10 +81,10 @@ class ColorModal {
 
         //Move logic to modal.html once I found a good way to inject its script
         const tabBtns = backdrop.getElementsByClassName("tab-button");
-        for(let i = 0; i < tabBtns.length; i++) {
+        for (let i = 0; i < tabBtns.length; i++) {
           tabBtns[i].onclick = () => {
             const btn = tabBtns[i];
-            if(btn.classList.contains("active")) return;
+            if (btn.classList.contains("active")) return;
 
             let id = btn.textContent.toLowerCase();
             backdrop.querySelector("#" + id).style.display = "flex";
@@ -92,10 +93,11 @@ class ColorModal {
             id = id === "tints" ? "shades" : "tints";
             backdrop.querySelector("#" + id).style.display = "none";
 
-            backdrop.querySelector(".tab-button.active").classList.remove("active");
+            backdrop
+              .querySelector(".tab-button.active")
+              .classList.remove("active");
             btn.classList.add("active");
-
-          }
+          };
         }
 
         backdrop.addEventListener("click", handler, false);

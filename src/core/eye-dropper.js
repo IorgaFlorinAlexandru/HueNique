@@ -1,41 +1,3 @@
-const styles = {
-  magnifier: {
-    width: "104px",
-    height: "104px",
-    position: "absolute",
-    border: "2px solid #e7e5e4",
-    cursor: "none",
-    borderRadius: "100%",
-    overflow: "hidden",
-    boxSizing: "unset",
-    zIndex: "99999",
-  },
-  previewBox: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "5px",
-    fontSize: "13px",
-    width: "200px",
-    height: "30px",
-    backgroundColor: "#fff",
-    position: "absolute",
-    boxSizing: "unset",
-    borderRadius: "5px",
-    zIndex: "99999",
-    color: "#333333",
-    background: "#F4F4F5",
-    fontFamily: "Verdana, sans-serif",
-  },
-  colorIndicator: {
-    display: "inline-block",
-    width: "20px",
-    height: "20px",
-    border: "1px solid #4e4e4e",
-    borderRadius: "3px",
-  },
-};
-
 class HueniqueEyeDropper {
   constructor() {
     this.eventHandlers = new Map();
@@ -52,7 +14,7 @@ class HueniqueEyeDropper {
       this.disableScroll();
 
       const eyeDropper = this;
-      return new Promise(function(resolve) {
+      return new Promise(function (resolve) {
         document.body.addEventListener(
           "mousedown",
           (e) => {
@@ -167,8 +129,8 @@ class HueniqueEyeDropper {
   createEyeDropper() {
     this.magnifier = document.createElement("div");
     this.previewBox = document.createElement("div");
-    Object.assign(this.magnifier.style, styles.magnifier);
-    Object.assign(this.previewBox.style, styles.previewBox);
+    this.magnifier.classList.add("huenique-magnifier");
+    this.previewBox.classList.add("huenique-preview");
 
     const defaultYPos = 25;
     const defaultXPos = document.body.clientWidth - 150;
@@ -180,11 +142,12 @@ class HueniqueEyeDropper {
     this.previewBox.style.left = "-200px";
 
     const colorIndicator = document.createElement("span");
-    Object.assign(colorIndicator.style, styles.colorIndicator);
+    colorIndicator.classList.add("huenique-color-swatch");
     const text = document.createElement("span");
     this.previewBox.appendChild(colorIndicator);
     this.previewBox.appendChild(text);
 
+    //const shadowDOM = document.body.attachShadow({ mode: "open" });
     document.body.appendChild(this.magnifier);
     document.body.appendChild(this.previewBox);
   }
