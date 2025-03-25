@@ -23,8 +23,8 @@ class Colors {
     };
   }
 
-  static getHexcodeFromPixel(bffr, x, y, width) {
-    const i = (y * width + x) * 4;
+  static getHexcodeFromPixel(x,y,bffr) {
+    const i = (y * window.innerWidth + x) * 4;
     const u8 = new Uint8Array(bffr.slice(i, i + 3));
 
     return "#" + u8.toHex();

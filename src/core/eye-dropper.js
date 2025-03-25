@@ -6,12 +6,20 @@ class HueniqueEyeDropper {
     this.renderer = new Renderer2(13, 104);
   }
 
-  open() {
+  open(mouseData) {
     const loadingCapture = this.loadCanvasImage();
-    return loadingCapture.then((canvas) => {
+    return loadingCapture.then(([canvas, bffr]) => {
       this.createEyeDropper();
-      this.addMouseMoveEvent(canvas);
       this.disableScroll();
+
+      let [x,y] = [window.innerWidth-135,80];
+      if(mouseData.isMouseOver) {
+        x = mouseData.x;
+        y = mouseData.y;
+      }
+      this.updateEyeDropper(x,y,canvas,bffr);
+
+      this.addMouseMoveEvent(canvas,bffr);
 
       const eyeDropper = this;
       return new Promise(function (resolve) {
@@ -52,8 +60,17 @@ class HueniqueEyeDropper {
 
             const ctx = canvas.getContext("2d");
             ctx.drawImage(imageBitmap, 0, 0);
+            imageBitmap.close();
+            
+            const imageData = ctx.getImageData(
+              0,
+              0,
+              canvas.width,
+              canvas.height,
+            );
+            const buffer8 = new Uint8Array(imageData.data.buffer); // what is endian, big or little
 
-            return canvas;
+            return [canvas, buffer8];
           },
           (error) => {
             console.log("Error while creating bitmap image:", error);
@@ -66,36 +83,27 @@ class HueniqueEyeDropper {
     );
   }
 
-  addMouseMoveEvent(imageCanvas) {
-    const iCtx = imageCanvas.getContext("2d");
-    const imageData = iCtx.getImageData(
-      0,
-      0,
-      imageCanvas.width,
-      imageCanvas.height,
-    );
-
-    const buffer8 = new Uint8Array(imageData.data.buffer); // what is endian, big or little
-    const innerWidth = window.innerWidth;
-    const scrollY = window.scrollY;
+  addMouseMoveEvent(canvas, bffr) {
     const handler = (e) => {
-      this.moveEyeDropper(e.clientX, e.clientY + scrollY);
-      this.renderer.drawPixelCanvas(e.clientX, e.clientY, imageCanvas);
-      this.previewColor(e.clientX, e.clientY, buffer8, innerWidth);
+      this.updateEyeDropper(e.clientX,e.clientY,canvas,bffr);
     };
 
     this.eventHandlers.set("mousemove", handler);
-
-    document.body.addEventListener("mousemove", handler, {
+    document.addEventListener("mousemove", handler, {
       passive: true,
       capture: true,
     });
-    this.magnifier.appendChild(this.renderer.container);
+  }
+
+  updateEyeDropper(x, y, canvas, bffr) {
+    this.moveEyeDropper(x, y);
+    this.renderer.drawPixelCanvas(x, y, canvas);
+    this.previewColor(x, y, bffr);
   }
 
   removeMouseMoveEvent() {
     const handler = this.eventHandlers.get("mousemove");
-    document.body.removeEventListener("mousemove", handler, true);
+    document.removeEventListener("mousemove", handler, true);
   }
 
   disableScroll() {
@@ -132,20 +140,13 @@ class HueniqueEyeDropper {
     this.magnifier.classList.add("huenique-magnifier");
     this.previewBox.classList.add("huenique-preview");
 
-    const defaultYPos = 25;
-    const defaultXPos = document.body.clientWidth - 150;
-
-    this.magnifier.style.top = defaultYPos + "px";
-    this.magnifier.style.left = defaultXPos + "px";
-
-    this.previewBox.style.top = "-30px";
-    this.previewBox.style.left = "-200px";
-
     const colorIndicator = document.createElement("span");
     colorIndicator.classList.add("huenique-color-swatch");
     const text = document.createElement("span");
     this.previewBox.appendChild(colorIndicator);
     this.previewBox.appendChild(text);
+
+    this.magnifier.appendChild(this.renderer.container);
 
     //const shadowDOM = document.body.attachShadow({ mode: "open" });
     document.body.appendChild(this.magnifier);
@@ -160,6 +161,7 @@ class HueniqueEyeDropper {
   }
 
   moveEyeDropper(x, y) {
+    y += window.scrollY;
     this.magnifier.style.left = x - 55 + "px";
     this.magnifier.style.top = y - 55 + "px";
     let pX = x - 100; // 100 half of previewBox Width
@@ -191,8 +193,8 @@ class HueniqueEyeDropper {
     this.renderer.clear();
   }
 
-  previewColor(x, y, bffr, width) {
-    const hex = Colors.getHexcodeFromPixel(bffr, x, y, width);
+  previewColor(x, y, bffr) {
+    const hex = Colors.getHexcodeFromPixel(x, y, bffr);
     const colorIndicator = this.previewBox.children[0];
     const text = this.previewBox.children[1];
     colorIndicator.style.backgroundColor = hex;
