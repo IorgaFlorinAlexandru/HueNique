@@ -12,14 +12,14 @@ class HueniqueEyeDropper {
       this.createEyeDropper();
       this.disableScroll();
 
-      let [x,y] = [window.innerWidth-135,80];
-      if(mouseData.isMouseOver) {
+      let [x, y] = [window.innerWidth - 135, 80];
+      if (mouseData.isMouseOver) {
         x = mouseData.x;
         y = mouseData.y;
       }
-      this.updateEyeDropper(x,y,canvas,bffr);
+      this.updateEyeDropper(x, y, canvas, bffr);
 
-      this.addMouseMoveEvent(canvas,bffr);
+      this.addMouseMoveEvent(canvas, bffr);
 
       const eyeDropper = this;
       return new Promise(function (resolve) {
@@ -61,7 +61,7 @@ class HueniqueEyeDropper {
             const ctx = canvas.getContext("2d");
             ctx.drawImage(imageBitmap, 0, 0);
             imageBitmap.close();
-            
+
             const imageData = ctx.getImageData(
               0,
               0,
@@ -85,7 +85,9 @@ class HueniqueEyeDropper {
 
   addMouseMoveEvent(canvas, bffr) {
     const handler = (e) => {
-      this.updateEyeDropper(e.clientX,e.clientY,canvas,bffr);
+      requestAnimationFrame(() => {
+        this.updateEyeDropper(e.clientX, e.clientY, canvas, bffr);
+      });
     };
 
     this.eventHandlers.set("mousemove", handler);
@@ -162,8 +164,6 @@ class HueniqueEyeDropper {
 
   moveEyeDropper(x, y) {
     y += window.scrollY;
-    this.magnifier.style.left = x - 55 + "px";
-    this.magnifier.style.top = y - 55 + "px";
     let pX = x - 100; // 100 half of previewBox Width
     let pY = y + 65; // 55 magnifier width + 10 spacing between
 
@@ -181,8 +181,8 @@ class HueniqueEyeDropper {
       pY = y - 95;
     }
 
-    this.previewBox.style.left = pX + "px";
-    this.previewBox.style.top = pY + "px";
+    this.magnifier.setAttribute("style",`transform: translate(${x - 55}px,${y - 55}px)`); 
+    this.previewBox.style.transform = `translate(${pX}px,${pY}px)`;
   }
 
   onDestroy() {

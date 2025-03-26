@@ -87,19 +87,17 @@ class Renderer2 {
   }
 
   drawPixelCanvas(x, y, iCanvas) {
-    requestAnimationFrame(() => {
-      this.ctx.drawImage(
-        iCanvas,
-        x - this.halfRegion,
-        y - this.halfRegion,
-        this.size,
-        this.size,
-        0,
-        0,
-        this.cSize,
-        this.cSize,
-      );
-    });
+    this.ctx.drawImage(
+      iCanvas,
+      x - this.halfRegion,
+      y - this.halfRegion,
+      this.size,
+      this.size,
+      0,
+      0,
+      this.cSize,
+      this.cSize,
+    );
   }
 
   clear() {
