@@ -13,11 +13,14 @@ class ColorModal {
         const backdrop = document.createElement("div");
         backdrop.classList.add("modal-backdrop");
 
+        const script = document.createElement("script");
+
         const handler = (e) => {
           const closeBtn = backdrop.querySelector(".close-btn");
           const hasPressedCloseBtn =
             e.target === closeBtn || closeBtn.contains(e.target);
           if (e.target === backdrop || hasPressedCloseBtn) {
+            document.body.removeChild(script);
             backdrop.removeEventListener("click", handler, false);
             document.body.removeChild(backdrop);
           }
@@ -25,7 +28,11 @@ class ColorModal {
         html = html.replace(/{{COLORHEXCODE}}/g, color.hex.string);
 
         backdrop.setHTMLUnsafe(html);
-        console.log(backdrop.querySelector("script"));
+
+        const modalScript = backdrop.querySelector("script");
+        script.textContent = modalScript.textContent;
+        document.body.appendChild(script);
+        
 
         const formats = backdrop.querySelector(".formats");
         if (!formats) {
@@ -80,7 +87,7 @@ class ColorModal {
         addColorVariationBtn(color.shades, "#shades", container);
 
         //Move logic to modal.html once I found a good way to inject its script
-        const tabBtns = backdrop.getElementsByClassName("tab-button");
+        const tabBtns = backdrop.querySelectorAll(".tab-button");
         for (let i = 0; i < tabBtns.length; i++) {
           tabBtns[i].onclick = () => {
             const btn = tabBtns[i];

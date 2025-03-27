@@ -35,7 +35,6 @@
       "matches": ["<all_urls>"],
       "js": [
         "src/core/eye-dropper.js",
-        "src/core/renderer.js",
         "src/core/renderer2.js",
         "src/utils/colors.util.js",
         "src/utils/color-modal.util.js",
