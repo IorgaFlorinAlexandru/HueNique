@@ -86,27 +86,6 @@ class ColorModal {
         addColorVariationBtn(color.tints, "#tints", container);
         addColorVariationBtn(color.shades, "#shades", container);
 
-        //Move logic to modal.html once I found a good way to inject its script
-        const tabBtns = backdrop.querySelectorAll(".tab-button");
-        for (let i = 0; i < tabBtns.length; i++) {
-          tabBtns[i].onclick = () => {
-            const btn = tabBtns[i];
-            if (btn.classList.contains("active")) return;
-
-            let id = btn.textContent.toLowerCase();
-            backdrop.querySelector("#" + id).style.display = "flex";
-
-            // Deactive current tab
-            id = id === "tints" ? "shades" : "tints";
-            backdrop.querySelector("#" + id).style.display = "none";
-
-            backdrop
-              .querySelector(".tab-button.active")
-              .classList.remove("active");
-            btn.classList.add("active");
-          };
-        }
-
         backdrop.addEventListener("click", handler, false);
         document.body.appendChild(backdrop);
       })

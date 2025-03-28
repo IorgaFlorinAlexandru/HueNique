@@ -24,6 +24,7 @@ document.body.addEventListener(
 );
 
 function huenique() {
+  if (document.body.querySelector(".huenique-modal") !== null) return;
   eyeDropper.open(mouseData).then((color) => {
     ColorModal.openModal(color);
   });

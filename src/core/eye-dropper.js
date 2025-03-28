@@ -165,7 +165,7 @@ class HueniqueEyeDropper {
   moveEyeDropper(x, y) {
     y += window.scrollY;
     let pX = x - 100; // 100 half of previewBox Width
-    let pY = y + 65; // 55 magnifier width + 10 spacing between
+    let pY = y + 52; // 55 magnifier width + 10 spacing between
 
     const innerWidth = window.innerWidth;
     const innerHeight = window.innerHeight + window.scrollY;
@@ -178,7 +178,7 @@ class HueniqueEyeDropper {
     }
 
     if (y >= innerHeight - 120) {
-      pY = y - 95;
+      pY = y - 88;
     }
 
     this.magnifier.setAttribute("style",`transform: translate(${x - 55}px,${y - 55}px)`); 
