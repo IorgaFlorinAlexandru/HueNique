@@ -81,11 +81,12 @@
   font-weight: 600;
   color: #71717a;
   background-color: transparent;
-  transition: 0.1s ease-in;
+  transition: 0.2s ease-in;
 }
 
 .tabs .active {
   background-color: white;
+  box-shadow: rgba(100,100,111,0.2) 0px 7px 29px 0px;
   color: #333333;
 }
 
