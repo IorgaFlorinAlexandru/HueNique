@@ -33,7 +33,7 @@
 
 .huenique-popup__header {
   align-items: center;
-  gap: 5px;
+  gap: 0.5rem;
   padding: 1rem;
   border-bottom: 1px solid #e8e8e9;
 }
@@ -41,6 +41,13 @@
 .huenique-popup__header__icon {
   width: 36px;
   height: 36px;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #333333;
+  border-radius: 5px;
+  color: #fff;
 }
 
 .huenique-popup__header__title {
