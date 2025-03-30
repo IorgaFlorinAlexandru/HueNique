@@ -56,7 +56,6 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "src/assets/fonts/Geist-Regular.woff2",
         "src/assets/fonts/Geist-SemiBold.woff2",
         "src/assets/icons/lucide-icons.svg",
         "src/modal/modal.html"
