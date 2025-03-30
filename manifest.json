@@ -58,9 +58,8 @@
       "resources": [
         "src/assets/fonts/Geist-Regular.woff2",
         "src/assets/fonts/Geist-SemiBold.woff2",
-        "src/modal/modal.html",
-        "src/modal/modal.css",
-        "src/modal/modal.js"
+        "src/assets/icons/lucide-icons.svg",
+        "src/modal/modal.html"
       ],
       "matches": ["<all_urls>"]
     }

@@ -7,6 +7,17 @@
   --hn-gray: #9fa0a5;
 }
 
+svg {
+  width: 20px;
+  height: 20px;
+  color: currentColor;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -48,6 +59,11 @@
   background: #333333;
   border-radius: 5px;
   color: #fff;
+}
+
+.huenique-popup__header__icon svg {
+  width: 24px;
+  height: 24px;
 }
 
 .huenique-popup__header__title {
@@ -96,7 +112,7 @@
   width: 100%;
   height: 40px;
   padding: 0 1rem;
-  transition: 0.2s ease-in-out;
+  /* transition: 0.2s ease-in-out; */
 }
 
 .huenique-popup__tabs {
