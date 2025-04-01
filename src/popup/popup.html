@@ -1,94 +1,127 @@
 <!doctype html>
+<html>
+  <head>
+    <title>Huenique Menu</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
 
-<head>
-  <title>Huenique Menu</title>
-  <link rel="stylesheet" href="popup.css" />
-</head>
-
-<body>
-  <div class="huenique-popup">
-    <section class="section huenique-popup__header">
-      <div class="huenique-popup__header__icon">
-        <svg>
-          <use href="../assets/icons/lucide-icons.svg#palette" />
-        </svg>
-      </div>
-      <div>
-        <h4 class="huenique-popup__header__title">HueNique</h4>
-        <p class="huenique-popup__header__version">v0.5.1</p>
-      </div>
-    </section>
-
-    <section class="content huenique-popup__content">
-      <div class="content__selecter-color"></div>
-      <div class="content__list">
-        <h4 class="content__list__title">Color Tools</h4>
-        <button class="button button__list">
-          <svg>
-            <use href="../assets/icons/lucide-icons.svg#pipette" />
-          </svg>
-          <span>Grab a color from the page </span>
-        </button>
-        <button class="button button__list">
+  <body>
+    <div class="huenique-popup">
+      <section class="section huenique-popup__header">
+        <div class="huenique-popup__header__icon">
           <svg>
             <use href="../assets/icons/lucide-icons.svg#palette" />
           </svg>
-          <span>Generate color palette </span>
-        </button>
-        <button class="button button__list">
-          <svg>
-            <use href="../assets/icons/lucide-icons.svg#refresh" />
-          </svg>
-          <span>Convert color format</span>
-        </button>
-        <button class="button button__list">
-          <svg>
-            <use href="../assets/icons/lucide-icons.svg#bookmark" />
-          </svg>
-          <span>Saved colors and palettes</span>
-        </button>
-        <button class="button button__list">
-          <svg>
-            <use href="../assets/icons/lucide-icons.svg#shuffle" />
-          </svg>
-          <span>Random color from the page</span>
-        </button>
-      </div>
-    </section>
+        </div>
+        <div>
+          <h4 class="huenique-popup__header__title">HueNique</h4>
+          <p class="huenique-popup__header__version">v0.3.2</p>
+        </div>
+      </section>
 
-    <section class="section huenique-popup__tabs">
-      <button class="button tab-button tab-button__active">
-        <span class="tab-button__icon">
-          <svg>
-            <use href="../assets/icons/lucide-icons.svg#brush" />
-          </svg>
-        </span>
-        <span>Tools</span>
-      </button>
-      <button class="button tab-button">
-        <span class="tab-button__icon">
-          <svg>
-            <use href="../assets/icons/lucide-icons.svg#history" />
-          </svg>
-        </span>
-        <span>History</span>
-      </button>
-      <button class="button tab-button">
-        <span class="tab-button__icon">
-          <svg>
-            <use href="../assets/icons/lucide-icons.svg#palette" />
-          </svg>
-        </span>
-        <span>Themes</span>
-      </button>
-      <button class="button tab-button">
-        <span class="tab-button__icon">
-          <svg>
-            <use href="../assets/icons/lucide-icons.svg#settings" />
-          </svg>
-        </span>
-        <span>Settings</span>
-      </button>
-    </section>
-  </div>
-</body>
+      <section class="huenique-popup__content">
+        <div class="huenique-popup__selecter-color"></div>
+
+        <!-- Tools -->
+        <section
+          id="tools"
+          class="content tools huenique-popup__content__tools"
+        >
+          <div class="content__list">
+            <h4 class="content__list__title">Color Tools</h4>
+            <button class="button button__list">
+              <svg>
+                <use href="../assets/icons/lucide-icons.svg#pipette" />
+              </svg>
+              <span>Grab a color from the page </span>
+            </button>
+            <button disabled class="button button__list">
+              <svg>
+                <use href="../assets/icons/lucide-icons.svg#palette" />
+              </svg>
+              <span>Generate color palette </span>
+            </button>
+            <button class="button button__list">
+              <svg>
+                <use href="../assets/icons/lucide-icons.svg#refresh" />
+              </svg>
+              <span>Convert color format</span>
+            </button>
+            <button class="button button__list">
+              <svg>
+                <use href="../assets/icons/lucide-icons.svg#bookmark" />
+              </svg>
+              <span>Saved colors and palettes</span>
+            </button>
+            <button class="button button__list">
+              <svg>
+                <use href="../assets/icons/lucide-icons.svg#shuffle" />
+              </svg>
+              <span>Random color from the page</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- History -->
+        <section
+          id="history"
+          class="history content huenique-popup__content__history"
+        >
+          history
+        </section>
+
+        <!-- Themes -->
+        <section
+          id="themes"
+          class="themes content huenique-popup__content__history"
+        >
+          themes
+        </section>
+
+        <!-- Settings -->
+        <section
+          id="settings"
+          class="settings content huenique-popup__content__history"
+        >
+          settings
+        </section>
+      </section>
+
+      <section class="section huenique-popup__tabs">
+        <button class="button tab-button tab-button__active">
+          <span class="tab-button__icon">
+            <svg>
+              <use href="../assets/icons/lucide-icons.svg#brush" />
+            </svg>
+          </span>
+          <span>Tools</span>
+        </button>
+        <button class="button tab-button">
+          <span class="tab-button__icon">
+            <svg>
+              <use href="../assets/icons/lucide-icons.svg#history" />
+            </svg>
+          </span>
+          <span>History</span>
+        </button>
+        <button class="button tab-button">
+          <span class="tab-button__icon">
+            <svg>
+              <use href="../assets/icons/lucide-icons.svg#palette" />
+            </svg>
+          </span>
+          <span>Themes</span>
+        </button>
+        <button class="button tab-button">
+          <span class="tab-button__icon">
+            <svg>
+              <use href="../assets/icons/lucide-icons.svg#settings" />
+            </svg>
+          </span>
+          <span>Settings</span>
+        </button>
+      </section>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>
