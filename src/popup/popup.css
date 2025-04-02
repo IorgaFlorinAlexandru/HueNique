@@ -114,6 +114,7 @@ svg {
 
 .button:disabled {
   color: var(--hn-gray);
+  cursor: not-allowed;
   background-color: #fff;
 }
 

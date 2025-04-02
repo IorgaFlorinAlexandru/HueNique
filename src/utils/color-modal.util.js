@@ -1,5 +1,5 @@
 class ColorModal {
-  static openModal(color) {
+  static open(color) {
     const url = browser.runtime.getURL("src/modal/modal.html");
     fetch(url)
       .then((response) => {
