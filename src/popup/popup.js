@@ -1,23 +1,31 @@
 const TAB_ACTIVE_CLASS = "tab-button__active";
 const POPUP_WIDTH = 335;
-const tabButtons = document.body.querySelectorAll(".tab-button");
+const tabs = document.body.querySelectorAll(".tab-button");
 
-tabButtons.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    changeTab(btn);
+tabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    changeTab(tab);
   });
 });
 
-function changeTab(button) {
-  if (button.classList.contains(TAB_ACTIVE_CLASS)) return;
+const recentColor = null;
+browser.storage.local.get("huenique").then((storage) => {
+  const recent = storage.huenique.colors.recent;
+  if(recent !== null) {
+    recentColor = recent;
+  }
+});
 
-  const multiplier = [...tabButtons].findIndex((b) => b === button);
+function changeTab(tab) {
+  if (tab.classList.contains(TAB_ACTIVE_CLASS)) return;
+
+  const multiplier = [...tabs].findIndex((t) => t === tab);
   const content = document.body.querySelector(".huenique-popup__content");
   content.style.translate = `${multiplier * -POPUP_WIDTH}px 0px`;
 
-  tabButtons.forEach((b) => {
-    b.classList.remove(TAB_ACTIVE_CLASS);
+  tabs.forEach((t) => {
+    t.classList.remove(TAB_ACTIVE_CLASS);
   });
 
-  button.classList.add(TAB_ACTIVE_CLASS);
+  tab.classList.add(TAB_ACTIVE_CLASS);
 }
