@@ -53,7 +53,7 @@ svg {
 .huenique-popup__header__icon {
   width: 36px;
   height: 36px;
-  
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -127,6 +127,57 @@ svg {
   padding: 0 1rem;
 }
 
+.color__details {
+  display: flex;
+  gap: 0.625rem;
+}
+
+.color__details__swatch {
+  width: 60px;
+  height: 60px;
+  border-radius: 5px;
+  background-color: red;
+}
+
+.color__details__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.color__details__content__label {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--hn-gray);
+}
+
+.color__details__content__code {
+  text-transform: uppercase;
+}
+
+.color__details__content__actions {
+  display: flex;
+  gap: 0.2rem;
+}
+
+.color__button {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px 5px;
+}
+
+.color__button svg {
+  width: 15px;
+  height: 15px;
+}
+
+.color__format {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
 .huenique-popup__tabs {
   border-top: 1px solid #e8e8e9;
 }
@@ -167,5 +218,4 @@ svg {
 
 .tab-button__active .tab-button__icon {
   background-color: #e8e8e9;
-;
 }

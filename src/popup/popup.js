@@ -8,11 +8,11 @@ tabs.forEach((tab) => {
   });
 });
 
-const recentColor = null;
 browser.storage.local.get("huenique").then((storage) => {
   const recent = storage.huenique.colors.recent;
   if(recent !== null) {
-    recentColor = recent;
+    const container = document.body.querySelector("#recentColor");
+    console.log(recent);
   }
 });
 
