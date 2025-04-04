@@ -35,6 +35,7 @@ svg {
   font-family: Geist;
   font-weight: 400;
   overflow-x: hidden;
+  padding: 60px 0;
 }
 
 .section {
@@ -44,10 +45,14 @@ svg {
 }
 
 .huenique-popup__header {
+  position: fixed;
+  top: 0;
   align-items: center;
   gap: 0.5rem;
   padding: 1rem;
   border-bottom: 1px solid #e8e8e9;
+  background: #fff;
+  z-index: 999;
 }
 
 .huenique-popup__header__icon {
@@ -93,7 +98,7 @@ svg {
 }
 
 .content__list__title {
-  margin-bottom: 10px;
+  margin: 0.475rem 0;
   font-size: 12px;
   color: var(--hn-gray);
 }
@@ -127,6 +132,10 @@ svg {
   padding: 0 1rem;
 }
 
+.color__recent {
+  display: none;
+}
+
 .color__details {
   display: flex;
   gap: 0.625rem;
@@ -136,7 +145,6 @@ svg {
   width: 60px;
   height: 60px;
   border-radius: 5px;
-  background-color: red;
 }
 
 .color__details__content {
@@ -158,6 +166,7 @@ svg {
 .color__details__content__actions {
   display: flex;
   gap: 0.2rem;
+  font-size: 12px;
 }
 
 .color__button {
@@ -165,6 +174,7 @@ svg {
   align-items: center;
   gap: 2px;
   padding: 3px 5px;
+  font-size: 12px;
 }
 
 .color__button svg {
@@ -175,11 +185,26 @@ svg {
 .color__format {
   display: flex;
   justify-content: space-between;
-  padding: 1rem;
+  align-items: center;
+  margin: 0.625rem 0;
+  padding: 0.5rem;
+  border: 1px solid #e8e8e9;
+  border-radius: 5px;
+  font-weight: 300;
+  font-size: 13px;
+}
+
+.color__format__button svg {
+  width: 17px;
+  height: 17px;
 }
 
 .huenique-popup__tabs {
+  position: fixed;
+  bottom: 0;
   border-top: 1px solid #e8e8e9;
+  z-index: 999;
+  background: #fff;
 }
 
 .tab-button {
